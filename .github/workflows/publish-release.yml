@@ -72,6 +72,9 @@ jobs:
           name: release-formats
           path: build
           
+      - name: Create index.html from book.html
+        run: cp build/book.html build/index.html
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
       
