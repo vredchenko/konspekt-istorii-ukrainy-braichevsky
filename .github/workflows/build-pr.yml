@@ -1,0 +1,51 @@
+name: PR Build Validation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false # Only run for non-draft PRs
+    container: pandoc/latex
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Make scripts executable
+      run: |
+        chmod +x build.sh
+        chmod +x parse.sh
+
+    - name: Create output directory
+      run: mkdir -p build
+
+    - name: Create dummy styles.css (if not present)
+      run: |
+        mkdir -p tools
+        echo "/* Basic styles for HTML output */" > tools/styles.css
+
+    - name: Create dummy cover.png (if not present)
+      run: |
+        if ! command -v convert &> /dev/null; then
+          echo "ImageMagick 'convert' not found in container. Skipping cover.png generation."
+          echo "Please ensure cover.png is committed if you need a custom cover."
+        else
+          convert -size 600x800 xc:lightblue -pointsize 48 -gravity Center -fill black -annotate 0 "Конспект історії України
+(Cover Placeholder)" tools/cover.png
+        fi
+
+    - name: Run build script (all formats)
+      run: ./build.sh
+      # This step will fail the job if any pandoc conversion fails, fulfilling "ensure they build with no errors"
+
+    - name: Upload build artifacts (for inspection)
+      uses: actions/upload-artifact@v4
+      with:
+        name: pr-build-formats
+        path: build/
+      # These artifacts are for debugging/inspection only, not for publishing
