@@ -1,0 +1,112 @@
+name: Build and Publish Book
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*.*.*' # Run on tags like v1.0.0
+  pull_request:
+    branches:
+      - main
+
+# Grant GITHUB_TOKEN the necessary permissions
+permissions:
+  contents: write # For creating releases
+  pages: write    # For deploying to GitHub Pages
+  id-token: write # For OpenID Connect (if needed for Pages, good practice)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: pandoc/latex # Use a Docker image with Pandoc and LaTeX pre-installed
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Make build script executable
+      run: chmod +x build.sh
+
+    - name: Create output directory
+      run: mkdir -p build
+
+    - name: Create dummy styles.css (if not present)
+      run: |
+        mkdir -p tools
+        echo "/* Basic styles for HTML output */" > tools/styles.css
+
+    - name: Create dummy cover.png (if not present)
+      # This step requires imagemagick in the container, but pandoc/latex might not have it.
+      # If it fails, the epub generation might proceed without a cover image.
+      # A more robust solution might be to have this image pre-generated and committed.
+      run: |
+        if ! command -v convert &> /dev/null; then
+          echo "ImageMagick 'convert' not found in container. Skipping cover.png generation."
+          echo "Please ensure cover.png is committed if you need a custom cover."
+        else
+          convert -size 600x800 xc:lightblue -pointsize 48 -gravity Center -fill black -annotate 0 "Конспект історії України
+(Cover Placeholder)" tools/cover.png
+        fi
+
+    - name: Run build script
+      run: ./build.sh
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: book-formats
+        path: build/
+  
+  deploy-gh-pages:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' # Only deploy main branch to Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: book-formats
+          path: build
+          
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'build'
+      
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  create-release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v') # Only run on tag pushes
+    steps:
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: book-formats
+          path: build
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            build/book.pdf
+            build/book.epub
+            build/book.docx
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body: "Automated release of the book in various formats."
+          draft: false
+          prerelease: false
