@@ -55,6 +55,21 @@ To perform the OCR:
 
 Detailed instructions for building the different output formats will be provided here once the build script is created.
 
+## Uploading BMPs to Cloudflare R2
+
+The original BMP files can be made publicly available via Cloudflare R2 for archival and direct access. You can find them at the following URL:
+
+[Cloudflare R2 Bucket Link](https://pub-f9168e8b00c242578fab483f231f318a.r2.dev/)
+
+To upload your local `source_bmps/` to R2:
+
+1.  **Prerequisite:** Ensure [Cloudflare Wrangler CLI](https://developers.cloudflare.com/workers/wrangler/install-update/) is installed and authenticated.
+2.  **Run the upload script:**
+    ```bash
+    chmod +x tools/upload_r2.sh
+    ./tools/upload_r2.sh
+    ```
+
 ## Repository Structure
 
 *   `./source_bmps/`: Original BMP image files (ignored by Git).
