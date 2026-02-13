@@ -100,10 +100,10 @@ jobs:
         run: |
           TAG="${{ github.ref_name }}"
           cd build
-          mv book.pdf "konspekt-istorii-ukrainy-braichevsky-${TAG}.pdf"
-          mv book.epub "konspekt-istorii-ukrainy-braichevsky-${TAG}.epub"
-          mv book.docx "konspekt-istorii-ukrainy-braichevsky-${TAG}.docx"
-          mv book.md "konspekt-istorii-ukrainy-braichevsky-${TAG}.md"
+          for f in book.*; do
+            ext="${f##*.}"
+            mv "$f" "konspekt-istorii-ukrainy-braichevsky-${TAG}.${ext}"
+          done
 
       - name: Create Release
         id: create_release

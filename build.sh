@@ -31,7 +31,7 @@ echo "Generating PDF ($BUILD_DIR/book.pdf)..."
 # Requires LaTeX to be installed (e.g., texlive-full)
 pandoc "$BOOK_MD" -o "$BUILD_DIR/book.pdf" \
     --toc \
-    --pdf-engine=pdflatex \
+    --pdf-engine=xelatex \
     --metadata title="Конспект історії України" \
     --metadata author="Михайло Брайчевський" \
     --metadata date="1993" \
