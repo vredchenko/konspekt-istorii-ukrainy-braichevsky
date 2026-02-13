@@ -9,3 +9,7 @@ dist/
 
 # Ignore local tool installation if any
 tools/installed/
+
+# Ignore wrangler and node_modules directories
+.wrangler/
+node_modules/
