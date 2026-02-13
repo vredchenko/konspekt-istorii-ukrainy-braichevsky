@@ -1,3 +1,6 @@
+# Built with Gemini CLI
+![Built with Gemini CLI](https://img.shields.io/badge/Built%20with-Gemini%20CLI-blue)
+
 # Ukraine Short History BMP Conversion
 
 This repository contains the OCR'd text of "Конспект історії України" by Михайло Брайчевський, originally sourced from BMP image files. The goal is to provide a single source Markdown document from which various publishable formats (webpage, PDF, ePub, DOCX) can be generated.
