@@ -39,8 +39,7 @@ jobs:
           echo "ImageMagick 'convert' not found in container. Skipping cover.png generation."
           echo "Please ensure cover.png is committed if you need a custom cover."
         else
-          convert -size 600x800 xc:lightblue -pointsize 48 -gravity Center -fill black -annotate 0 "Конспект історії України
-(Cover Placeholder)" tools/cover.png
+          convert -size 600x800 xc:lightblue -pointsize 48 -gravity Center -fill black -annotate 0 "Конспект історії України (Cover Placeholder)" tools/cover.png
         fi
 
     - name: Run build script (all formats)
