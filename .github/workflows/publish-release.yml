@@ -46,6 +46,9 @@ jobs:
       run: ./build.sh
       # This step will fail the job if any pandoc conversion fails
 
+    - name: Include source Markdown in build
+      run: cp book.md build/book.md
+
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
@@ -93,14 +96,20 @@ jobs:
           name: release-formats
           path: build
 
+      - name: Rename assets for release
+        run: |
+          TAG="${{ github.ref_name }}"
+          cd build
+          mv book.pdf "konspekt-istorii-ukrainy-braichevsky-${TAG}.pdf"
+          mv book.epub "konspekt-istorii-ukrainy-braichevsky-${TAG}.epub"
+          mv book.docx "konspekt-istorii-ukrainy-braichevsky-${TAG}.docx"
+          mv book.md "konspekt-istorii-ukrainy-braichevsky-${TAG}.md"
+
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          files: |
-            build/book.pdf
-            build/book.epub
-            build/book.docx
+          files: build/konspekt-istorii-ukrainy-braichevsky-*
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           body: "Automated release of the book in various formats."
