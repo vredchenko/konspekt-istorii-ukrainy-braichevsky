@@ -29,15 +29,15 @@ for file in "$SOURCE_BMP_DIR"/*.bmp; do
     if [ -f "$file" ]; then
         filename=$(basename "$file")
         output_base_name="${filename%.*}" # Remove .bmp extension
-        output_txt_file="$OCR_TEMP_DIR/ocr_$output_base_name.txt"
+        output_txt_file="$OCR_TEMP_DIR/ocr_$(basename "$new_filename" .bmp).txt"
         
         echo "OCR'ing $filename to $output_txt_file"
-        tesseract "$file" "$OCR_TEMP_DIR/ocr_$output_base_name" -l ukr || echo "Error OCR'ing $filename"
+        tesseract "$file" "$OCR_TEMP_DIR/ocr_$(basename "$new_filename" .bmp)" -l ukr || echo "Error OCR'ing $filename"
     fi
 done
 
 echo "Combining all OCR'd text files into $COMBINED_OCR_OUTPUT..."
-cat "$OCR_TEMP_DIR"/ocr_LWF*.txt > "$COMBINED_OCR_OUTPUT"
+cat "$OCR_TEMP_DIR"/ocr_konspekt-istorii-ukrainy-braichevsky-*.txt > "$COMBINED_OCR_OUTPUT"
 
 echo "OCR process complete. Combined output is in $COMBINED_OCR_OUTPUT"
 echo "You can now use this combined output to refine book.md."

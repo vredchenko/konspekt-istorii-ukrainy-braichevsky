@@ -35,7 +35,7 @@ The original BMP image files are not stored in this repository due to their size
     ```bash
     mkdir source_bmps
     ```
-2.  **Place the original BMP files** into this `source_bmps/` directory. (Note: These files were originally in a directory named `Ukraine Short history Брайч_Конспект_позначки СВ/`).
+2.  **Place the original BMP files** into this `source_bmps/` directory. For example, `konspekt-istorii-ukrainy-braichevsky-0000.bmp`.
 
 ## Parsing (OCR) the BMPs
 
