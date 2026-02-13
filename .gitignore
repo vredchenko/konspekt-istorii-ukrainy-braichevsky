@@ -1,6 +1,4 @@
 # Gitignore for the book project
-# Ignore temporary OCR output files
-/home/vredchenko/.gemini/tmp/984539315e1c7b6c123bb891439f320cadc9b7052391990bbf1a884832997f96/
 
 # Ignore source BMPs as they are too large and contain sensitive info potentially
 source_bmps/
