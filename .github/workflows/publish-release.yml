@@ -101,7 +101,6 @@ jobs:
             build/book.pdf
             build/book.epub
             build/book.docx
-            book.md # Include the Markdown source in the release
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           body: "Automated release of the book in various formats."

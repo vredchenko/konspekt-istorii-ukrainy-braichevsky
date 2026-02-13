@@ -1,5 +1,6 @@
 # Built with Gemini CLI
 ![Built with Gemini CLI](https://img.shields.io/badge/Built%20with-Gemini%20CLI-blue)
+![Built with Claude Code](https://img.shields.io/badge/Built%20with-Claude%20Code-CC785C?logo=anthropic&logoColor=white)
 
 # Ukraine Short History BMP Conversion
 
