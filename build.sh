@@ -59,4 +59,60 @@ pandoc "$BOOK_MD" -o "$BUILD_DIR/book.docx" \
     --metadata author="Михайло Брайчевський" \
     --metadata date="1993"
 
+# --- English Translation ---
+BOOK_EN="book-en.md"
+
+if [ -f "$BOOK_EN" ]; then
+  echo ""
+  echo "Building English translation from $BOOK_EN..."
+
+  # 5. Generate English HTML
+  echo "Generating HTML ($BUILD_DIR/book-en.html)..."
+  pandoc "$BOOK_EN" -o "$BUILD_DIR/book-en.html" \
+      --standalone \
+      --embed-resources \
+      --toc \
+      --self-contained \
+      --css=./tools/styles.css \
+      --metadata title="An Outline of Ukrainian History" \
+      --metadata author="Mykhaylo Braychevsky" \
+      --metadata date="1993"
+
+  # 6. Generate English PDF
+  echo "Generating PDF ($BUILD_DIR/book-en.pdf)..."
+  pandoc "$BOOK_EN" -o "$BUILD_DIR/book-en.pdf" \
+      --toc \
+      --pdf-engine=xelatex \
+      --metadata title="An Outline of Ukrainian History" \
+      --metadata author="Mykhaylo Braychevsky" \
+      --metadata date="1993" \
+      -V mainfont="DejaVu Serif" \
+      -V sansfont="DejaVu Sans" \
+      -V monofont="DejaVu Sans Mono" \
+      -V documentclass=article \
+      -V geometry:margin=1in \
+      -V lang=en
+
+  # 7. Generate English EPUB
+  echo "Generating EPUB ($BUILD_DIR/book-en.epub)..."
+  pandoc "$BOOK_EN" -o "$BUILD_DIR/book-en.epub" \
+      --toc \
+      --metadata title="An Outline of Ukrainian History" \
+      --metadata author="Mykhaylo Braychevsky" \
+      --metadata date="1993" \
+      --epub-cover-image=./tools/cover.png
+
+  # 8. Generate English DOCX
+  echo "Generating DOCX ($BUILD_DIR/book-en.docx)..."
+  pandoc "$BOOK_EN" -o "$BUILD_DIR/book-en.docx" \
+      --toc \
+      --metadata title="An Outline of Ukrainian History" \
+      --metadata author="Mykhaylo Braychevsky" \
+      --metadata date="1993"
+
+  echo "English translation build complete."
+else
+  echo "No English translation found ($BOOK_EN), skipping."
+fi
+
 echo "Build process complete. Output files are in the '$BUILD_DIR' directory."

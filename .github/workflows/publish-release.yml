@@ -47,7 +47,9 @@ jobs:
       # This step will fail the job if any pandoc conversion fails
 
     - name: Include source Markdown in build
-      run: cp book.md build/book.md
+      run: |
+        cp book.md build/book.md
+        if [ -f book-en.md ]; then cp book-en.md build/book-en.md; fi
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
@@ -107,6 +109,11 @@ jobs:
             ext="${f##*.}"
             mv "$f" "konspekt-istorii-ukrainy-braichevsky-${TAG}.${ext}"
           done
+          for f in book-en.*; do
+            [ -f "$f" ] || continue
+            ext="${f##*.}"
+            mv "$f" "konspekt-istorii-ukrainy-braichevsky-en-${TAG}.${ext}"
+          done
 
       - name: Create Release
         id: create_release
@@ -115,7 +122,7 @@ jobs:
           files: build/konspekt-istorii-ukrainy-braichevsky-*
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
-          body: "Automated release of the book in various formats."
+          body: "Automated release of the book in various formats (Ukrainian original and English translation)."
           draft: false
           prerelease: false
         env:
