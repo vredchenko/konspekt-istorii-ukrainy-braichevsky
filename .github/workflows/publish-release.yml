@@ -46,10 +46,11 @@ jobs:
       run: ./build.sh
       # This step will fail the job if any pandoc conversion fails
 
-    - name: Include source Markdown in build
+    - name: Include source Markdown and landing page in build
       run: |
         cp book.md build/book.md
         if [ -f book-en.md ]; then cp book-en.md build/book-en.md; fi
+        cp index.html build/index.html
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
@@ -74,8 +75,7 @@ jobs:
           name: release-formats
           path: build
           
-      - name: Create index.html from book.html
-        run: cp build/book.html build/index.html
+      # index.html is already in the build artifacts from the build job
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

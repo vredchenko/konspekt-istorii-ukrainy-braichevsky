@@ -22,6 +22,7 @@ pandoc "$BOOK_MD" -o "$BUILD_DIR/book.html" \
     --toc \
     --self-contained \
     --css=./tools/styles.css \
+    --include-before-body=./tools/nav-uk.html \
     --metadata title="Конспект історії України" \
     --metadata author="Михайло Брайчевський" \
     --metadata date="1993"
@@ -74,6 +75,7 @@ if [ -f "$BOOK_EN" ]; then
       --toc \
       --self-contained \
       --css=./tools/styles.css \
+      --include-before-body=./tools/nav-en.html \
       --metadata title="An Outline of Ukrainian History" \
       --metadata author="Mykhaylo Braychevsky" \
       --metadata date="1993"
