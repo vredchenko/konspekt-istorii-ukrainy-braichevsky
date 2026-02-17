@@ -1,6 +1,7 @@
 #!/bin/sh
 
 BUILD_DIR="build"
+GH_PAGES_BUILD_DIR="$BUILD_DIR/gh-pages-site"
 BOOK_MD="book.md"
 
 # Ensure Pandoc is installed
@@ -11,6 +12,7 @@ fi
 
 # Ensure output directory exists
 mkdir -p "$BUILD_DIR"
+mkdir -p "$GH_PAGES_BUILD_DIR"
 
 echo "Building book from $BOOK_MD..."
 
@@ -23,6 +25,15 @@ pandoc "$BOOK_MD" -o "$BUILD_DIR/book.html" \
     --self-contained \
     --css=./tools/styles.css \
     --include-before-body=./tools/nav-uk.html \
+    --metadata title="Конспект історії України" \
+    --metadata author="Михайло Брайчевський" \
+    --metadata date="1993"
+
+echo "Generating GitHub Pages HTML (UA) ($GH_PAGES_BUILD_DIR/index.html)..."
+pandoc "$BOOK_MD" -o "$GH_PAGES_BUILD_DIR/index.html" \
+    --standalone \
+    --css=../styles/main.css \
+    --include-before-body=./website/templates/header-ua.html \
     --metadata title="Конспект історії України" \
     --metadata author="Михайло Брайчевський" \
     --metadata date="1993"
@@ -113,8 +124,32 @@ if [ -f "$BOOK_EN" ]; then
       --metadata date="1993"
 
   echo "English translation build complete."
-else
-  echo "No English translation found ($BOOK_EN), skipping."
-fi
 
-echo "Build process complete. Output files are in the '$BUILD_DIR' directory."
+  echo ""
+  echo "Building GitHub Pages HTML (EN) ($GH_PAGES_BUILD_DIR/en/index.html)..."
+  mkdir -p "$GH_PAGES_BUILD_DIR/en"
+  pandoc "$BOOK_EN" -o "$GH_PAGES_BUILD_DIR/en/index.html" \
+      --standalone \
+      --css=../../styles/main.css \
+      --include-before-body=./website/templates/header-en.html \
+      --metadata title="An Outline of Ukrainian History" \
+      --metadata author="Mykhaylo Braychevsky" \
+      --metadata date="1993"
+
+  echo "Creating GitHub Pages HTML (UA alias) ($GH_PAGES_BUILD_DIR/ua/index.html)..."
+  mkdir -p "$GH_PAGES_BUILD_DIR/ua"
+    cp "$GH_PAGES_BUILD_DIR/index.html" "$GH_PAGES_BUILD_DIR/ua/index.html"
+  
+    echo "Copying GitHub Pages assets to $GH_PAGES_BUILD_DIR..."
+    mkdir -p "$GH_PAGES_BUILD_DIR/styles"
+    cp ./website/styles/main.css "$GH_PAGES_BUILD_DIR/styles/"
+    # Assuming there might be assets in website/assets, copy them too if they exist
+    if [ -d "./website/assets" ]; then
+      cp -r ./website/assets "$GH_PAGES_BUILD_DIR/"
+    fi
+  
+  else
+    echo "No English translation found ($BOOK_EN), skipping."
+  fi
+  
+  echo "Build process complete. Output files are in the '$BUILD_DIR' directory."
