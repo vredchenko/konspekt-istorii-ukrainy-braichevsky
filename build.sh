@@ -32,7 +32,7 @@ pandoc "$BOOK_MD" -o "$BUILD_DIR/book.html" \
 echo "Generating GitHub Pages HTML (UA) ($GH_PAGES_BUILD_DIR/index.html)..."
 pandoc "$BOOK_MD" -o "$GH_PAGES_BUILD_DIR/index.html" \
     --standalone \
-    --css=../styles/main.css \
+    --css=styles/main.css \
     --include-before-body=./website/templates/header-ua.html \
     --metadata title="Конспект історії України" \
     --metadata author="Михайло Брайчевський" \
@@ -70,6 +70,10 @@ pandoc "$BOOK_MD" -o "$BUILD_DIR/book.docx" \
     --metadata title="Конспект історії України" \
     --metadata author="Михайло Брайчевський" \
     --metadata date="1993"
+
+# 5. Copy Markdown source for release
+echo "Copying Markdown source ($BUILD_DIR/book.md)..."
+cp "$BOOK_MD" "$BUILD_DIR/"
 
 # --- English Translation ---
 BOOK_EN="book-en.md"
@@ -123,6 +127,10 @@ if [ -f "$BOOK_EN" ]; then
       --metadata author="Mykhaylo Braychevsky" \
       --metadata date="1993"
 
+  # Copy English Markdown source for release
+  echo "Copying Markdown source ($BUILD_DIR/book-en.md)..."
+  cp "$BOOK_EN" "$BUILD_DIR/"
+
   echo "English translation build complete."
 
   echo ""
@@ -130,15 +138,19 @@ if [ -f "$BOOK_EN" ]; then
   mkdir -p "$GH_PAGES_BUILD_DIR/en"
   pandoc "$BOOK_EN" -o "$GH_PAGES_BUILD_DIR/en/index.html" \
       --standalone \
-      --css=../../styles/main.css \
+      --css=../styles/main.css \
       --include-before-body=./website/templates/header-en.html \
       --metadata title="An Outline of Ukrainian History" \
       --metadata author="Mykhaylo Braychevsky" \
       --metadata date="1993"
 
-  echo "Creating GitHub Pages HTML (UA alias) ($GH_PAGES_BUILD_DIR/ua/index.html)..."
+  echo "Creating GitHub Pages redirect (UA alias) ($GH_PAGES_BUILD_DIR/ua/index.html)..."
   mkdir -p "$GH_PAGES_BUILD_DIR/ua"
-    cp "$GH_PAGES_BUILD_DIR/index.html" "$GH_PAGES_BUILD_DIR/ua/index.html"
+    cat > "$GH_PAGES_BUILD_DIR/ua/index.html" <<'REDIRECT'
+<!DOCTYPE html>
+<html><head><meta http-equiv="refresh" content="0;url=../"></head>
+<body><a href="../">Redirect</a></body></html>
+REDIRECT
   
     echo "Copying GitHub Pages assets to $GH_PAGES_BUILD_DIR..."
     mkdir -p "$GH_PAGES_BUILD_DIR/styles"
