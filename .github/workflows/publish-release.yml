@@ -97,23 +97,24 @@ jobs:
 
       - name: Rename assets for release
         run: |
-          TAG="${{ github.ref_name }}"
           cd build
           for f in book.*; do
             ext="${f##*.}"
-            mv "$f" "konspekt-istorii-ukrainy-braichevsky-${TAG}.${ext}"
+            mv "$f" "konspekt-istorii-ukrainy-braichevsky.${ext}"
           done
           for f in book-en.*; do
             [ -f "$f" ] || continue
             ext="${f##*.}"
-            mv "$f" "konspekt-istorii-ukrainy-braichevsky-en-${TAG}.${ext}"
+            mv "$f" "konspekt-istorii-ukrainy-braichevsky-en.${ext}"
           done
 
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          files: build/konspekt-istorii-ukrainy-braichevsky-*
+          files: |
+            build/konspekt-istorii-ukrainy-braichevsky.*
+            build/konspekt-istorii-ukrainy-braichevsky-en.*
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           body: "Automated release of the book in various formats (Ukrainian original and English translation)."
