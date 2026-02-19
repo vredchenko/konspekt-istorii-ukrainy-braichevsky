@@ -143,6 +143,8 @@ if [ -f "$BOOK_EN" ]; then
     echo "Copying GitHub Pages assets to $GH_PAGES_BUILD_DIR..."
     mkdir -p "$GH_PAGES_BUILD_DIR/styles"
     cp ./website/styles/main.css "$GH_PAGES_BUILD_DIR/styles/"
+    # Copy fonts
+    cp -r ./website/fonts "$GH_PAGES_BUILD_DIR/"
     # Assuming there might be assets in website/assets, copy them too if they exist
     if [ -d "./website/assets" ]; then
       cp -r ./website/assets "$GH_PAGES_BUILD_DIR/"

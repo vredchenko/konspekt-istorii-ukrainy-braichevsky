@@ -5,8 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Конспект історії України — An Outline of Ukrainian History</title>
   <style>
+    @font-face {
+      font-family: 'Ancient Kyiv';
+      src: url('fonts/ancient-kyiv/AncientKyiv.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Kyiv Machine';
+      src: url('fonts/kyiv-machine/KyivMachine-nR0aM.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
     body {
-      font-family: sans-serif;
+      font-family: 'Kyiv Machine', sans-serif;
       margin: 0;
       padding: 2em;
       line-height: 1.6;
@@ -15,7 +29,7 @@
       margin: 0 auto;
       padding: 2em 1em;
     }
-    h1 { font-size: 1.6em; margin-bottom: 0.2em; }
+    h1 { font-family: 'Ancient Kyiv', serif; font-size: 1.6em; margin-bottom: 0.2em; }
     .subtitle { color: #555; margin-bottom: 2em; }
     .lang-cards { display: flex; gap: 1.5em; flex-wrap: wrap; margin: 2em 0; }
     .lang-card {
@@ -32,7 +46,7 @@
       border-color: #888;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
-    .lang-card h2 { margin: 0 0 0.3em; font-size: 1.2em; }
+    .lang-card h2 { font-family: 'Ancient Kyiv', serif; margin: 0 0 0.3em; font-size: 1.2em; }
     .lang-card p { margin: 0; color: #555; font-size: 0.95em; }
     .meta { color: #777; font-size: 0.9em; margin-top: 2em; }
     .meta a { color: #555; }
