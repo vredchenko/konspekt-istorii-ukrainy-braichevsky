@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 BUILD_DIR="build"
 GH_PAGES_BUILD_DIR="$BUILD_DIR/gh-pages-site"

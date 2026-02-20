@@ -28,6 +28,9 @@ jobs:
     - name: Create output directory
       run: mkdir -p build
 
+    - name: Install DejaVu fonts for PDF generation
+      run: apk add --no-cache font-dejavu
+
     - name: Create dummy styles.css (if not present)
       run: |
         mkdir -p tools
