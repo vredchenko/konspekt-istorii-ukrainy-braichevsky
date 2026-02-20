@@ -35,6 +35,7 @@ pandoc "$BOOK_MD" -o "$GH_PAGES_BUILD_DIR/index.html" \
     --standalone \
     --css=styles/main.css \
     --include-before-body=./website/templates/header-ua.html \
+    --include-after-body=./website/templates/footer.html \
     --metadata title="Конспект історії України" \
     --metadata author="Михайло Брайчевський" \
     --metadata date="1993"
@@ -141,6 +142,7 @@ if [ -f "$BOOK_EN" ]; then
       --standalone \
       --css=../styles/main.css \
       --include-before-body=./website/templates/header-en.html \
+      --include-after-body=./website/templates/footer.html \
       --metadata title="An Outline of Ukrainian History" \
       --metadata author="Mykhaylo Braychevsky" \
       --metadata date="1993"

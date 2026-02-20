@@ -44,8 +44,15 @@ header nav {
 
 header h1 {
     margin: 0;
-    font-size: 1.8em;
+    font-size: 1.2em;
     font-family: 'Ancient Kyiv', serif;
+}
+
+header h1 .header-meta {
+    font-family: 'Kyiv Machine', Arial, sans-serif;
+    font-weight: 400;
+    font-size: 0.75em;
+    opacity: 0.8;
 }
 
 header h1 a {
@@ -126,16 +133,23 @@ header ul li a:hover {
     text-decoration: underline;
 }
 
+/* Hide Pandoc-generated title block (duplicates header) */
+#title-block-header {
+    display: none;
+}
+
 /* Headings use Ancient Kyiv globally */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Ancient Kyiv', serif;
 }
 
-/* Main Content Styling (Issue #3) */
-.content { /* Assuming pandoc output might be wrapped in a div with class 'content' or similar */
+/* Main Content Styling */
+.content {
     max-width: 1200px;
     margin: 2em auto;
-    padding: 1em 2em;
+    padding: 1em 4em;
+    font-size: 1.15em;
+    line-height: 1.9;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -147,6 +161,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 1.5em;
     margin-bottom: 0.5em;
     line-height: 1.2;
+    text-align: center;
 }
 
 .content h1 { font-size: 2.5em; }
