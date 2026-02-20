@@ -44,14 +44,12 @@ header nav {
 
 header h1 {
     margin: 0;
-    font-size: 1.2em;
-    font-family: 'Ancient Kyiv', serif;
+    font-size: 1.1em;
+    font-family: 'Kyiv Machine', Arial, sans-serif;
+    font-weight: 400;
 }
 
 header h1 .header-meta {
-    font-family: 'Kyiv Machine', Arial, sans-serif;
-    font-weight: 400;
-    font-size: 0.75em;
     opacity: 0.8;
 }
 
@@ -66,6 +64,7 @@ header ul {
     padding: 0;
     display: flex;
     gap: 1em;
+    align-items: center;
 }
 
 header ul li a {
